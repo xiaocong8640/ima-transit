@@ -145,6 +145,8 @@ class Browser:
         if tab is not None:
             self.ws = websocket.create_connection(tab["webSocketDebuggerUrl"], timeout=3600)
             self.send("Page.enable")
+            try: self.send("Page.bringToFront")
+            except Exception: pass
             return tab
         # 没有对应标签就新开
         try:
@@ -153,6 +155,8 @@ class Browser:
             tab = json.loads(urllib.request.urlopen(req, timeout=10).read().decode())
             self.ws = websocket.create_connection(tab["webSocketDebuggerUrl"], timeout=3600)
             self.send("Page.enable")
+            try: self.send("Page.bringToFront")
+            except Exception: pass
             return tab
         except Exception:
             tabs = json.loads(urllib.request.urlopen(
